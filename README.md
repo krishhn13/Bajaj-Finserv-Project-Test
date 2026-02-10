@@ -16,8 +16,8 @@ A robust REST API service developed for the Bajaj Finserv Qualifier 1 assessment
 | :--- | :--- | :--- |
 | `fibonacci` | Integer | Generates the Fibonacci series up to the specified length |
 | `prime` | Integer Array | Filters and returns only the prime numbers from the array. |
-| `lcm` | Integer Array | [cite_start]Calculates the Least Common Multiple of the provided integers. |
-| `hcf` | Integer Array | [cite_start]Calculates the Highest Common Factor of the provided integers. |
+| `lcm` | Integer Array | Calculates the Least Common Multiple of the provided integers. |
+| `hcf` | Integer Array | Calculates the Highest Common Factor of the provided integers. |
 | `AI` | String | Returns a single-word response from an integrated AI model. |
 
 ---
@@ -31,15 +31,19 @@ A robust REST API service developed for the Bajaj Finserv Qualifier 1 assessment
 ```json []
 {
   "is_success": true,
-  "official_email": "YOUR_CHITKARA_EMAIL"
+  "official_email": "krishan0467.be23@chitkara.edu.in"
 }
 ```
 ### 2. BFHL Status
 **Endpoint:** : `POST /bfhl`
+**Request :**
+```json[]
+{
+    "fibonacci" : 5
+}
+```
 
 **Successful Response:**
-
-
 ```json[]
 {
     "is_success": true,
@@ -51,5 +55,68 @@ A robust REST API service developed for the Bajaj Finserv Qualifier 1 assessment
         2,
         3
     ]
+}
+```
+**Request :**
+```json[]
+{
+    "prime" : [12,3,4,5,10,87]
+}
+```
+
+**Successful Response:**
+```json[]
+{
+    "is_success": true,
+    "official_email": "krishan0467.be23@chitkara.edu.in",
+    "data": [
+        3,
+        5
+    ]
+}
+```
+**Request :**
+```json[]
+{
+  "lcm": [12,18,24]
+}
+```
+
+**Successful Response:**
+```json[]
+{
+    "is_success": true,
+    "official_email": "krishan0467.be23@chitkara.edu.in",
+    "data": 72
+}
+```
+**Request :**
+```json[]
+{  
+  "hcf": [24,36,60]
+}
+```
+
+**Successful Response:**
+```json[]
+{
+    "is_success": true,
+    "official_email": "krishan0467.be23@chitkara.edu.in",
+    "data": 12
+}
+```
+**Request :**
+```json[]
+{
+  "AI": "What is the capital city of Maharashtra?"
+}
+```
+
+**Successful Response:**
+```json[]
+{
+    "is_success": true,
+    "official_email": "krishan0467.be23@chitkara.edu.in",
+    "data": "Mumbai"
 }
 ```
