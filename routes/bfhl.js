@@ -68,6 +68,47 @@ router.post('/', async (req, res) => {
                                 resultData = input.reduce((acc, curr) => getGCD(acc, curr));
                                 break;
 
+                        case 'AI':
+                                try {
+                                        const model = genAI.getGenerativeModel({
+                                                model: "models/gemini-2.0-flash"
+                                        });
+
+                                        const prompt = `Answer this question in exactly one single word: ${input}`;
+
+                                        const result = await model.generateContent(prompt);
+
+                                        const responseText =
+                                                result?.response?.text?.() 
+                                                ? await result.response.text()
+                                                : "";
+
+                                        if (!responseText) {
+                                                throw new Error("Empty AI response");
+                                        }
+
+                                        resultData = responseText
+                                                .trim()
+                                                .split(/\s+/)[0]
+                                                .replace(/[^\w]/g, '');
+
+                                } catch (aiError) {
+                                        if (aiError.message?.includes("429")) {
+                                                throw new Error("AI quota exceeded. Please try again later.");
+                                        }
+
+                                        if (aiError.message?.includes("401") || aiError.message?.includes("403")) {
+                                                throw new Error("AI authentication failed. Check API key or permissions.");
+                                        }
+
+                                        if (aiError.message?.includes("404")) {
+                                                throw new Error("AI model not found or deprecated.");
+                                        }
+
+                                        throw new Error("AI processing failed: " + aiError.message);
+                                }
+                                break;
+
                         default:
                                 return res.status(400).json({
                                         is_success: false,
