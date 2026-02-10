@@ -7,6 +7,9 @@ const PORT = process.env.PORT
 const bfhl = require('./routes/bfhl')
 const health = require('./routes/health')
 
+app.use(express.json());
+
+
 // default landing page
 app.get("/", (req, res) => {
     res.status(200).json({

@@ -119,7 +119,7 @@ router.post('/', async (req, res) => {
                 res.status(200).json({
                         is_success: true,
                         official_email: OFFICIAL_EMAIL,
-                        data: JSON.stringify(resultData)
+                        data: resultData
                 });
 
         } catch (error) {
