@@ -74,7 +74,7 @@ router.post('/', async (req, res) => {
                                                 model: "models/gemini-2.0-flash"
                                         });
 
-                                        const prompt = `Answer this question in exactly one single word: ${input}`;
+                                        const prompt = `Answer this question in exactly one single word and don't fluff around : ${input}`;
 
                                         const result = await model.generateContent(prompt);
 
@@ -93,15 +93,15 @@ router.post('/', async (req, res) => {
                                                 .replace(/[^\w]/g, '');
 
                                 } catch (aiError) {
-                                        if (aiError.message?.includes("429")) {
+                                        if (aiError.message?.includes("429")) {  // Too Many Requests
                                                 throw new Error("AI quota exceeded. Please try again later.");
                                         }
 
-                                        if (aiError.message?.includes("401") || aiError.message?.includes("403")) {
+                                        if (aiError.message?.includes("401") || aiError.message?.includes("403")) {  //unauthorized or forbidden
                                                 throw new Error("AI authentication failed. Check API key or permissions.");
                                         }
 
-                                        if (aiError.message?.includes("404")) {
+                                        if (aiError.message?.includes("404")) { //Not found
                                                 throw new Error("AI model not found or deprecated.");
                                         }
 
@@ -119,13 +119,11 @@ router.post('/', async (req, res) => {
                 res.status(200).json({
                         is_success: true,
                         official_email: OFFICIAL_EMAIL,
-                        data: resultData
+                        data: JSON.stringify(resultData)
                 });
 
         } catch (error) {
-
                 console.error("API ERROR:", error);
-
                 res.status(400).json({
                         is_success: false,
                         official_email: OFFICIAL_EMAIL,
