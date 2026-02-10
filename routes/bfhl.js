@@ -6,6 +6,13 @@ const api = process.env.API_KEY;
 const OFFICIAL_EMAIL = process.env.EMAIL;
 const genAI = new GoogleGenerativeAI(api);
 
+const isPrime = (num) => {
+        if (num <= 1) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+        }
+        return true;
+};
 
 const getGCD = (a, b) => (!b ? a : getGCD(b, a % b));
 const getLCM = (a, b) => (a === 0 || b === 0) ? 0 : Math.abs(a * b) / getGCD(a, b);
@@ -38,6 +45,27 @@ router.post('/', async (req, res) => {
                                         fib.push(fib[i - 1] + fib[i - 2]);
                                 }
                                 resultData = input === 0 ? [] : input === 1 ? [0] : fib.slice(0, input);
+                                break;
+
+                        case 'prime':
+                                if (!Array.isArray(input)) {
+                                        throw new Error("Input must be an array of integers");
+                                }
+                                resultData = input.filter(n => typeof n === 'number' && isPrime(n));
+                                break;
+
+                        case 'lcm':
+                                if (!Array.isArray(input) || input.length === 0) {
+                                        throw new Error("Input must be a non-empty array");
+                                }
+                                resultData = input.reduce((acc, curr) => getLCM(acc, curr));
+                                break;
+
+                        case 'hcf':
+                                if (!Array.isArray(input) || input.length === 0) {
+                                        throw new Error("Input must be a non-empty array");
+                                }
+                                resultData = input.reduce((acc, curr) => getGCD(acc, curr));
                                 break;
 
                         default:
